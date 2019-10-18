@@ -14,10 +14,11 @@ def init_browser():
 def scrape():
     listings = {}
     listings["mars_news"] = mars_news()
+    listings["mars_news1"] = mars_news1()
     listings["mars_image"] = marsImage()
     listings["mars_weather"] = marsWeather()
     listings["mars_facts"] = marsFacts()
-    listings["mars_hemisphere"] = marsHem()
+    listings["mars_hemispheres"] = marsHem()
     return listings
 
 
@@ -33,9 +34,24 @@ def mars_news():
    news_paragraph = news.find("div", class_="article_teaser_body").text
    news_title = news.find("div", class_="content_title").text
 
-   mars_news = [news_title, news_paragraph]
+   mars_news = [news_date, news_title]
    browser.quit()
    return mars_news
+
+def mars_news1():
+   browser = init_browser()
+   news_url = "https://mars.nasa.gov/news/"
+   browser.visit(news_url)
+   html = browser.html
+   soup = BeautifulSoup(html, "html.parser")
+   news = soup.find("div", class_="list_text")
+   news_date = news.find("div", class_="list_date").text
+   news_paragraph = news.find("div", class_="article_teaser_body").text
+   news_title = news.find("div", class_="content_title").text
+
+   mars_news1 = [news_paragraph]
+   browser.quit()
+   return mars_news1
 
 
 
@@ -88,44 +104,28 @@ def marsHem():
    browser.visit(hemispheres_url)
    html = browser.html
    soup = BeautifulSoup(html, "html.parser")
-   # mars_hemisphere = []
-   # products = soup.find("div", class_ = "result-list" )
-   # hemispheres = products.find_all("div", class_="item")
-   # for hemisphere in hemispheres:
-   #     title = hemisphere.find("h3").text
-   #     title = title.replace("Enhanced", "")
-   #     end_link = hemisphere.find("a")["href"]
-   #     image_link = "https://astrogeology.usgs.gov/" + end_link
-   #     browser.visit(image_link)
-   #     html = browser.html
-   #     soup=BeautifulSoup(html, "html.parser")
-   #     downloads = soup.find("div", class_="downloads")
-   #     image_url = downloads.find("a")["href"]
-   #     dictionary = {"title": title, "img_url": image_url}
-   #     mars_hemisphere.append(dictionary)
-   # browser.quit()
-   # return mars_hemisphere
-
-   hemispheres = soup.findAll("a",{"class":"itemLink"})
    mars_hemispheres = []
-
+   products = soup.find("div", class_ = "result-list" )
+   hemispheres = products.find_all("div", class_="item")
    for hemisphere in hemispheres:
-      try:
-            H = {'title':hemisphere.h3.text, 'url':'https://astrogeology.usgs.gov/'+hemisphere.get('href') }
-            browser.visit('https://astrogeology.usgs.gov/'+hemisphere.get('href'))
-            html= browser.html
-            soup=BeautifulSoup(html, "html.parser")
+       title = hemisphere.find("h3").text
+       title = title.replace("Enhanced", "")
+       end_link = hemisphere.find("a")["href"]
+       image_link = "https://astrogeology.usgs.gov/" + end_link
+       browser.visit(image_link)
+       html = browser.html
+       soup=BeautifulSoup(html, "html.parser")
+       downloads = soup.find("div", class_="downloads")
+       image_url = downloads.find("a")["href"]
+       dictionary = {"title": title, "img_url": image_url}
+       mars_hemispheres.append(dictionary)
 
-            mars_hemispheres.append(H)
+       #Store list in MongoDB
+       #collection.insert_one(dictionary)
 
-            #Store list in MongoDB
-            #collection.insert_one(H)
-
-      except:
-         pass
-
-
-
-   #print (mars_hemispheres)
    browser.quit()
    return mars_hemispheres
+
+
+
+

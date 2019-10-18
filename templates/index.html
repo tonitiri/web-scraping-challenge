@@ -9,6 +9,36 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     </head>
 
+    <!-- <body>
+        <div class="container">
+
+            <div class="jumbotron text-center">
+                <h1>Mission To Mars</h1>
+                <p><a class="btn btn-primary btn-lg" href="/scrape" role="button">Scrape New Data</a></p>
+            </div>
+
+            <!-- Mars Listings -->
+    <!-- <div class="row" id="mars-listings">
+                <div class="col-md-8">
+                    <h2 class="heading">{{listings.mars_news}}</h2>
+                    <h3 class="heading">{{listings.mars_news1}}</h3>
+                    <h4 class="heading">{{listings.mars_weather}}</h4>
+                    <img src="{{listings.mars_image}}" width='200px' height='200px'>
+                    <small>{{listings.mars_facts |safe}}</small> -->
+
+    <!--
+                    {% for hemisphere in listings.mars_hemispheres %}
+                    <img src="{{hemisphere.img_url}}" width='150px' height='200px'>
+                    <h3 class="heading">{{hemisphere.title}}</h3>
+
+                    {% endfor %}
+
+                </div>
+            </div>
+
+        </div> -->
+    <!--</body> -->
+
     <body>
         <div class="container">
 
@@ -18,16 +48,43 @@
             </div>
 
             <!-- Mars Listings -->
-            <div class="row" id="mars-listings">
-                <div class="col-md-8">
-                    <h4 class="heading">{{listings.mars_news}}</h4>
-                    <h5 class="heading">{{listings.mars_image}} {{listings.mars_weather}}</h5>
-                    <small>{{listings.mars_facts}}</small>
-                    <img src='{{listings.mars_hemisphere}}'>
-                </div>
+
+            <div class="jumbotron">
+                <h4 class="display-4"><b>Latest Mars News</b></h4>
+                <p class="lead box">{{listings.mars_news}}
+                </p>
+                <p><i>{{listings.mars_news1}}</i></p>
+
+                <!-- <div class="jumbotron"> -->
+                <h3 class="display-4"><b>Featured Mars Image</b></h3>
+                <!-- Image -->
+                <img src="{{listings.mars_image}}" width='300px' height='200px'>
+                <h4><b>Current Mars Weather</b></h4>
+                <p>{{listings.mars_weather}}</p>
+
+                <h4>Mars Facts</h4>
+
+                <small>{{listings.mars_facts |safe}}</small>
+
             </div>
 
-        </div>
+            <div class="container">
+                <h3 class="text-center">Mars Hemispheres</h3>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="thumbnail">
+                            {% for hemisphere in listings.mars_hemispheres %}
+                            <img src="{{hemisphere.img_url}}" width='150px' height='200px'>
+                            <h4 class="heading">{{hemisphere.title}}</h4>
+
+                            {% endfor %}
+
+                        </div>
+
+
+
+                    </div>
+
     </body>
 
 </html>
