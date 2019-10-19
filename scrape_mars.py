@@ -99,7 +99,7 @@ def marsFacts():
 # # Mars Hemispheres
 def marsHem():
    browser = init_browser()
-   #import time
+   import time
    hemispheres_url = "https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars"
    browser.visit(hemispheres_url)
    html = browser.html
